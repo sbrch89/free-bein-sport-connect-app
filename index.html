@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="a202a2e36f220936deb3b2c32f020e7dd4b500f0" content="a202a2e36f220936deb3b2c32f020e7dd4b500f0" />
     <title>JWPlayer Channel Switcher</title>
     <script src="https://ssl.p.jwpcdn.com/player/v/8.18.4/jwplayer.js"> </script>
     <script type="text/javascript">
@@ -52,90 +52,86 @@
     </style>
 </head>
 <body>
-<meta name="a202a2e36f220936deb3b2c32f020e7dd4b500f0" content="a202a2e36f220936deb3b2c32f020e7dd4b500f0" />
-<!-- Player Container -->
-<div id="megaplay"></div>
+    <!-- Player Container -->
+    <div id="megaplay"></div>
 
-<!-- Channel Playlist -->
-<ul class="channel-list" id="channelList">
-    <!-- Channel list items will be dynamically added here -->
-</ul>
+    <!-- Channel Playlist -->
+    <ul class="channel-list" id="channelList">
+        <!-- Channel list items will be dynamically added here -->
+    </ul>
 
-<script type="text/javascript">
-    // Array of all channels with their names and URLs
-    var channels = [
-        { name: "BEIN SPORT 1", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8" },
-        { name: "BEIN SPORT 2", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports2.m3u8" },
-        { name: "BEIN SPORT 3", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports3.m3u8" },
-        { name: "BEIN SPORT 4", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports4.m3u8" },
-        { name: "BEIN SPORT 5", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports5.m3u8" },
-        { name: "BEIN SPORT 6", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports6.m3u8" },
-               
-    ];
+    <script type="text/javascript">
+        // Array of all channels with their names and URLs
+        var channels = [
+            { name: "BEIN SPORT 1", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports1.m3u8" },
+            { name: "BEIN SPORT 2", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports2.m3u8" },
+            { name: "BEIN SPORT 3", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports3.m3u8" },
+            { name: "BEIN SPORT 4", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports4.m3u8" },
+            { name: "BEIN SPORT 5", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports5.m3u8" },
+            { name: "BEIN SPORT 6", url: "https://live4.beinconnect.us/YallaGoalApp/beINSports6.m3u8" },
+        ];
 
-    // Initialize JWPlayer
-    var player = jwplayer("megaplay");
+        // Initialize JWPlayer
+        var player = jwplayer("megaplay");
 
-    // Function to load a selected channel into the player
-    function loadChannel(channelUrl) {
-        player.setup({
-            sources: [{
-                "file": channelUrl,
-                "type": "video/mp4",
-                "label": "Auto"
-            }],
-            aspectratio: "16:9",
-            startparam: "start",
-            primary: "html5",
-            autostart: true,
-            preload: "auto",
-            image: "",
-            advertising: {
-                client: "vast",
-                tag: ""
-            },
-            skin: {
-                name: "megaplay"
-            },
-            logo: {
-                file: "https://b.top4top.io/p_3251wegty1.png"
-            },
-            captions: {
-                color: "#f3f368",
-                fontSize: 16,
-                backgroundOpacity: 0,
-                fontfamily: "Helvetica",
-                edgeStyle: "raised"
-            },
-            tracks: [{
-                file: "",
-                label: "Español",
-                kind: "captions"
-            }]
+        // Function to load a selected channel into the player
+        function loadChannel(channelUrl) {
+            player.setup({
+                sources: [{
+                    "file": channelUrl,
+                    "type": "application/x-mpegURL",
+                    "label": "Auto"
+                }],
+                aspectratio: "16:9",
+                startparam: "start",
+                primary: "html5",
+                autostart: true,
+                preload: "auto", // You can change this to "none" or "metadata" for performance
+                image: "",
+                advertising: {
+                    client: "vast",
+                    tag: ""
+                },
+                skin: { name: "megaplay" },
+                logo: {
+                    file: "https://b.top4top.io/p_3251wegty1.png"
+                },
+                captions: {
+                    color: "#f3f368",
+                    fontSize: 16,
+                    backgroundOpacity: 0,
+                    fontfamily: "Helvetica",
+                    edgeStyle: "raised"
+                },
+                tracks: [{
+                    file: "",
+                    label: "Español",
+                    kind: "captions"
+                }]
+            });
+        }
+
+        // Add channels to the list dynamically
+        var channelListElement = document.getElementById("channelList");
+        channels.forEach(function(channel) {
+            var listItem = document.createElement("li");
+            listItem.innerHTML = `<a href="#" onclick="loadChannel('${channel.url}'); return false;">${channel.name}</a>`;
+            channelListElement.appendChild(listItem);
         });
-    }
 
-    // Add channels to the list dynamically
-    var channelListElement = document.getElementById("channelList");
-    channels.forEach(function(channel) {
-        var listItem = document.createElement("li");
-        listItem.innerHTML = `<a href="#" onclick="loadChannel('${channel.url}'); return false;">${channel.name}</a>`;
-        channelListElement.appendChild(listItem);
-    });
+        // Load the first channel by default (BEIN SPORT 1)
+        loadChannel(channels[0].url);
 
-    // Load the first channel by default (BEIN SPORT 1)
-    loadChannel(channels[0].url);
+        // Error handling for player setup
+        player.on("setupError", function() {
+            alert("Server Error! Please contact us to fix it ASAP.");
+        });
+        player.on("error", function() {
+            alert("Server Error! Please contact us to fix it ASAP.");
+        });
+    </script>
 
-    // Error handling for player setup
-    player.on("setupError", function() {
-        alert("Server Error! Please contact us to fix it ASAP.");
-    });
-    player.on("error", function() {
-        alert("Server Error! Please contact us to fix it ASAP.");
-    });
-</script>
-
-<script src="https://cdn.jsdelivr.net/gh/da2l/host@1/dist/js/wgd-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/da2l/host@1/dist/js/wgd-core.min.js"></script>
 
 </body>
 </html>
